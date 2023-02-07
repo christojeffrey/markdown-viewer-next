@@ -5,35 +5,47 @@ import verifyRefreshToken from "@/utils/verifyRefreshToken";
 import { parseToken } from "@/utils";
 
 import styles from "./[repo].module.css";
-export default function Home({ markdownString, isLoggedIn }: { markdownString: string; isLoggedIn: boolean }) {
+export default function Home({ markdownString, isLoggedIn, isError }: { markdownString: string; isLoggedIn: boolean; isError: boolean }) {
   useEffect(() => {
     // setting prefers-color-scheme to dark
     document.documentElement.setAttribute("data-theme", "dark");
   }, []);
   return (
-    <div className={styles.container}>
-      {isLoggedIn ? (
-        <>
-          <div className={styles.buttonContainer}>
-            <button className={styles.logoutButton} onClick={() => (window.location.href = "/logout")}>
-              logout
-            </button>
+    <>
+      {isError ? (
+        <div className={styles.errorContainer}>
+          <div className={styles.notLoggedInContainer}>
+            <MarkdownViewer markdownString={markdownString} />
+            <div className={styles.buttonContainer}>
+              {isLoggedIn ? (
+                <button className={styles.notErrorButton} onClick={() => (window.location.href = "/logout")}>
+                  logout
+                </button>
+              ) : (
+                <button className={styles.notErrorButton} onClick={() => (window.location.href = "/login")}>
+                  login
+                </button>
+              )}
+            </div>
           </div>
-          <MarkdownViewer markdownString={markdownString} />
-        </>
+        </div>
       ) : (
-        <div className={styles.notLoggedInContainer}>
-          <MarkdownViewer markdownString={markdownString} />
+        <div className={styles.container}>
           <div className={styles.buttonContainer}>
-            {!isLoggedIn && (
-              <button className={styles.button} onClick={() => (window.location.href = "/login")}>
+            {isLoggedIn ? (
+              <button className={styles.errorButton} onClick={() => (window.location.href = "/logout")}>
+                logout
+              </button>
+            ) : (
+              <button className={styles.errorButton} onClick={() => (window.location.href = "/login")}>
                 login
               </button>
             )}
           </div>
+          <MarkdownViewer markdownString={markdownString} />
         </div>
       )}
-    </div>
+    </>
   );
 }
 
@@ -68,8 +80,8 @@ export async function getServerSideProps(context: any) {
     // refresh access_token
     const { isSuccess, responseData } = await verifyRefreshToken(refresh_token);
 
-    if (!isSuccess) return { props: { status: "error" } };
-    if (responseData.includes("error")) return { props: { status: "error" } };
+    if (!isSuccess) return { props: { markdownString: "### Bad credentials", isLoggedIn: true, isError: true } };
+    if (responseData.includes("error")) return { props: { markdownString: "### Bad credentials", isLoggedIn: true, isError: true } };
 
     const { access_token: new_access_token, expires_in, refresh_token: new_refresh_token, refresh_token_expires_in, scope, token_type } = parseToken(responseData);
 
@@ -96,12 +108,12 @@ export async function getServerSideProps(context: any) {
     const json = await urlData.json();
 
     if (json.message === "Not Found") {
-      return { props: { markdownString: "### Not Found, or probably you need to log in", isLoggedIn: false } };
+      return { props: { markdownString: "### Not Found, or probably you need to log in", isLoggedIn: false, isError: true } };
     }
     // get markdown with catch
     const markdownData = await fetch(json.download_url);
     const markdownString = await markdownData.text();
-    return { props: { markdownString, isLoggedIn: false } };
+    return { props: { markdownString, isLoggedIn: false, isError: false } };
   } else {
     // for private repository
     // Fetch data from external API
@@ -115,16 +127,16 @@ export async function getServerSideProps(context: any) {
     const json = await urlData.json();
     console.log("json", json);
     if (json.message === "Not Found") {
-      return { props: { markdownString: "### Not Found. typo?", isLoggedIn: true } };
+      return { props: { markdownString: "### Not Found. typo?", isLoggedIn: true, isError: true } };
     }
 
     if (json.message === "Bad credentials") {
-      return { props: { markdownString: "### Bad credentials", isLoggedIn: true } };
+      return { props: { markdownString: "### Bad credentials", isLoggedIn: true, isError: true } };
     }
 
     // get markdown with catch
     const markdownData = await fetch(json.download_url);
     const markdownString = await markdownData.text();
-    return { props: { markdownString, isLoggedIn: true } };
+    return { props: { markdownString, isLoggedIn: true, isError: false } };
   }
 }

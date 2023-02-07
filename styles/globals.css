@@ -116,6 +116,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--color-canvas-default);
+  padding: 0px 10px;
 }
 #__next .markdown-body {
   /* width following screen size, max 800px */

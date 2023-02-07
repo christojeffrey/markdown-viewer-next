@@ -3,6 +3,8 @@ import { verifyLoginCode, parseToken } from "@/utils";
 
 export default function Verify({ status }: any) {
   useEffect(() => {
+    // setting prefers-color-scheme to dark
+    document.documentElement.setAttribute("data-theme", "dark");
     // redirect
     window.location.href = "/";
   }, []);

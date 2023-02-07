@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 export default function Logout(props: any) {
   useEffect(() => {
+    // setting prefers-color-scheme to dark
+    document.documentElement.setAttribute("data-theme", "dark");
     window.location.href = "/";
   }, []);
   return (

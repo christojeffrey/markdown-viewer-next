@@ -2,10 +2,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: start;
+  width: 100%;
+  min-height: 100vh;
+}
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 100%;
 }
-.button {
+.notErrorButton {
   /* center */
   width: 100%;
   display: flex;
@@ -19,10 +27,10 @@
   font-size: 1.5em;
   color: rgb(155, 155, 155);
 }
-.button:hover {
+.notErrorButton:hover {
   color: white;
 }
-.logoutButton {
+.errorButton {
   /* center */
   display: flex;
   justify-content: end;
@@ -37,7 +45,7 @@
   padding: 0px 12px;
   color: rgb(226, 226, 226);
 }
-.logoutButton:hover {
+.errorButton:hover {
   color: white;
   text-decoration: underline;
 }
