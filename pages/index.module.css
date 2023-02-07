@@ -1,0 +1,21 @@
+.indexContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  /* button with no style */
+  background: none;
+  border: none;
+  /* larger text */
+  font-size: 1.5em;
+  /* text color grey */
+  color: #555;
+}
+
+/* on hover */
+.button:hover {
+  /* underline text */
+  text-decoration: underline;
+  color: black;
+}

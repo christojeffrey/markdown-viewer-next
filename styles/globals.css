@@ -2,6 +2,22 @@ body {
   margin: 0;
   padding: 0;
 }
+/* body font-size depending on screen size */
+@media (min-width: 768px) {
+  body {
+    font-size: 20px;
+  }
+}
+@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1280px) {
+  body {
+    font-size: 16px;
+  }
+}
 [data-theme="dark"] #__next {
   color-scheme: dark;
   --color-prettylights-syntax-comment: #8b949e;
@@ -95,21 +111,21 @@ body {
 }
 #__next {
   /* flex, middle left right */
-  min-width: 100%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--color-canvas-default);
+  padding: 1px;
 }
 #__next .markdown-body {
-  width: min-content;
+  /* width following screen size, max 500px */
+  width: 100%;
   max-width: 800px;
   margin: 20px;
   color: var(--color-fg-default);
   background-color: var(--color-canvas-default);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
 }
