@@ -10,12 +10,12 @@
   /* larger text */
   font-size: 1.5em;
   /* text color grey */
-  color: #555;
+  color: #c9c9c9;
 }
 
 /* on hover */
 .button:hover {
   /* underline text */
   text-decoration: underline;
-  color: black;
+  color: white;
 }

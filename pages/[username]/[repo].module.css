@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.button {
+  /* center */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* button with no style */
+  border: none;
+  background: none;
+  text-decoration: underline;
+  border-radius: 10px;
+  font-size: 1.5em;
+  color: rgb(155, 155, 155);
+}
+.button:hover {
+  color: white;
+}
+.logoutButton {
+  /* center */
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  /* button with no style */
+  border: none;
+  background: none;
+  border-radius: 10px;
+  font-size: 1.2em;
+
+  margin-top: 12px;
+  padding: 0px 12px;
+  color: rgb(226, 226, 226);
+}
+.logoutButton:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+  max-width: 800px;
+}
+
+.notLoggedInContainer {
+  /* all center */
+  display: flex;
+  flex-direction: column;
+}

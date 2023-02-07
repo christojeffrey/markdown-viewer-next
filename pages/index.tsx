@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
   useEffect(() => {
+    document.documentElement.setAttribute("data-theme", "dark");
     // check access_token from cookie
     // if access_token is valid, setIsLoggedIn(true)
     const accessToken = document.cookie.split("=")[1];
@@ -23,7 +24,7 @@ export default function Home() {
 
   return (
     <div className={styles.indexContainer}>
-      <MarkdownViewer markdownString="# Hello *world*!" />
+      <MarkdownViewer markdownString="### Hello *world*!" />
       {isLoggedIn ? (
         <button className={styles.button} onClick={handleLogout}>
           logout

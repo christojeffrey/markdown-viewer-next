@@ -4,16 +4,36 @@ import MarkdownViewer from "@/features/MarkdownViewer";
 import verifyRefreshToken from "@/utils/verifyRefreshToken";
 import { parseToken } from "@/utils";
 
+import styles from "./[repo].module.css";
 export default function Home({ markdownString, isLoggedIn }: { markdownString: string; isLoggedIn: boolean }) {
   useEffect(() => {
     // setting prefers-color-scheme to dark
     document.documentElement.setAttribute("data-theme", "dark");
   }, []);
   return (
-    <>
-      {!isLoggedIn && <button onClick={() => (window.location.href = "/login")}>login</button>}
-      <MarkdownViewer markdownString={markdownString} />
-    </>
+    <div className={styles.container}>
+      {isLoggedIn ? (
+        <>
+          <div className={styles.buttonContainer}>
+            <button className={styles.logoutButton} onClick={() => (window.location.href = "/logout")}>
+              logout
+            </button>
+          </div>
+          <MarkdownViewer markdownString={markdownString} />
+        </>
+      ) : (
+        <div className={styles.notLoggedInContainer}>
+          <MarkdownViewer markdownString={markdownString} />
+          <div className={styles.buttonContainer}>
+            {!isLoggedIn && (
+              <button className={styles.button} onClick={() => (window.location.href = "/login")}>
+                login
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -76,7 +96,7 @@ export async function getServerSideProps(context: any) {
     const json = await urlData.json();
 
     if (json.message === "Not Found") {
-      return { props: { markdownString: "Not Found, or probably you need to log in", isLoggedIn: false } };
+      return { props: { markdownString: "### Not Found, or probably you need to log in", isLoggedIn: false } };
     }
     // get markdown with catch
     const markdownData = await fetch(json.download_url);
@@ -95,11 +115,11 @@ export async function getServerSideProps(context: any) {
     const json = await urlData.json();
     console.log("json", json);
     if (json.message === "Not Found") {
-      return { props: { markdownString: "Not Found. typo?", isLoggedIn: true } };
+      return { props: { markdownString: "### Not Found. typo?", isLoggedIn: true } };
     }
 
     if (json.message === "Bad credentials") {
-      return { props: { markdownString: "Bad credentials", isLoggedIn: true } };
+      return { props: { markdownString: "### Bad credentials", isLoggedIn: true } };
     }
 
     // get markdown with catch
