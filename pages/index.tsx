@@ -5,19 +5,20 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", "dark");
     // check access_token from cookie
     // if access_token is valid, setIsLoggedIn(true)
     const accessToken = document.cookie.split("=")[1];
     console.log("accessToken");
     console.log(accessToken);
+
     if (accessToken) setIsLoggedIn(true);
     else setIsLoggedIn(false);
-    // else setIsLoggedIn(false)
   }, []);
+
   const handleLogin = () => {
     window.location.href = "/login";
   };
+
   const handleLogout = () => {
     window.location.href = "/logout";
   };
